@@ -3,34 +3,48 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
 
-export default class EditExercise extends Component {
+ class EditExercise extends Component {
 
 constructor(props) {
     super(props);
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDuration = this.onChangeDuration.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangeAge = this.onChangeAge.bind(this);
+    this.onChangeGender = this.onChangeGender.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeCity = this.onChangeCity.bind(this);
+    this.onChangeQuali = this.onChangeQuali.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: '',
-      description: '',
-      duration: 0,
+      username: "",
+      email: "",
+      quali: "",
+      status: "",
+      age: "",
+      gender: "",
+      city: "",
       date: new Date(),
-      users: []
-    }
+      // users: []
+    };
   }
 
   componentDidMount() {
-    axios.get('https://hadoop-backenddb.herokuapp.com/excercises/'+this.props.match.params.id)
+    axios.get('http://localhost:4000/excercises/'+this.props.match.params.id)
       .then(response => {
         this.setState({
           username: response.data.username,
-          description: response.data.description,
-          duration: response.data.duration,
+          email: response.data.email,
+          status: response.data.status,
+          city: response.data.city,
+          gender: response.data.gender,
+          age: response.data.age,
+          quali: response.data.quali,
           date: new Date(response.data.date)
         })   
       })
@@ -38,104 +52,165 @@ constructor(props) {
         console.log(error);
       })
 
-    axios.get('https://hadoop-backenddb.herokuapp.com/users/')
-      .then(response => {
-        if (response.data.length > 0) {
-          this.setState({
-            users: response.data.map(user => user.username),
-          })
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    // axios.get('http://localhost:4000/users/')
+    //   .then(response => {
+    //     if (response.data.length > 0) {
+    //       this.setState({
+    //         users: response.data.map(user => user.username),
+    //       })
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   })
 
   }
 
   onChangeUsername(e) {
     this.setState({
-      username: e.target.value
-    })
+      username: e.target.value,
+    });
   }
 
-  onChangeDescription(e) {
+  onChangeCity(e) {
     this.setState({
-      description: e.target.value
-    })
+      city: e.target.value,
+    });
   }
 
-  onChangeDuration(e) {
+  onChangeEmail(e) {
     this.setState({
-      duration: e.target.value
-    })
+      email: e.target.value,
+    });
+  }
+  onChangeGender(e) {
+    this.setState({
+      gender: e.target.value,
+    });
+  }
+  onChangeQuali(e) {
+    this.setState({
+      quali: e.target.value,
+    });
+  }
+
+  onChangeStatus(e) {
+    this.setState({
+      status: e.target.value,
+    });
+  }
+
+  onChangeAge(e) {
+    this.setState({
+      age: e.target.value,
+    });
   }
 
   onChangeDate(date) {
     this.setState({
-      date: date
-    })
+      date: date,
+    });
   }
+
 
   onSubmit(e) {
     e.preventDefault();
 
     const exercise = {
       username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date
+      email: this.state.email,
+      status: this.state.status,
+      city: this.state.city,
+      gender: this.state.gender,
+      age: this.state.age,
+      quali: this.state.quali,
+      date: this.state.date,
     }
 
     console.log(exercise);
 
-    axios.post('https://hadoop-backenddb.herokuapp.com/excercises/update/' + this.props.match.params.id, exercise)
+    axios.post('http://localhost:4000/excercises/update/' + this.props.match.params.id, exercise)
       .then(res => console.log(res.data));
 
-    window.location = '/';
+  //  return <Redirect to = '/' />;
+   window.location = '/';
   }
 
   render() {
     return (
-    <div>
-      <h3>Edit Exercise Log</h3>
-      <form onSubmit={this.onSubmit}>
-        <div className="form-group"> 
-          <label>Username: </label>
-          <select ref="userInput"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}>
-              {
-                this.state.users.map(function(user) {
-                  return <option 
-                    key={user}
-                    value={user}>{user}
-                    </option>;
-                })
-              }
-          </select>
-        </div>
-        <div className="form-group"> 
-          <label>Description: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
-              />
+      <div>
+      <h3>Edit Excercise</h3>
+      <form onSubmit={this.onSubmit} className="input-form">
+        <div className="">
+          <label className = "input-label">Username </label>
+  
+          <input
+            type="text"
+            className="inputfld"
+            value={this.state.username}
+            onChange={this.onChangeUsername}
+          />
         </div>
         <div className="form-group">
-          <label>Duration (in minutes): </label>
-          <input 
-              type="text" 
-              className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
-              />
+          <label className = "input-label">Email</label>
+          <input
+            type="text"
+            className="inputfld"
+            value={this.state.email}
+            onChange={this.onChangeEmail}
+          />
         </div>
         <div className="form-group">
-          <label>Date: </label>
+          <label className = "input-label">Status</label>
+          <input
+            type="text"
+            className="inputfld"
+            value={this.state.status}
+            onChange={this.onChangeStatus}
+          />
+        </div>
+        <div className="form-group">
+          <label className = "input-label">Qualification </label>
+          <input
+            type="text"
+            className="inputfld"
+            value={this.state.quali}
+            onChange={this.onChangeQuali}
+          />
+        </div>
+        <div className="form-group">
+          <label className = "input-label">Age </label>
+          <input
+            type="text"
+            className="inputfld"
+            value={this.state.age}
+            onChange={this.onChangeAge}
+          />
+        </div>
+        <div className="form-group">
+          <label className = "input-label">Gender </label>
+          <select
+            ref="userInput"
+            required
+            className="inputfld"
+            value={this.state.gender}
+            onChange={this.onChangeGender}
+          >
+            <option>Male</option>
+            <option>Female</option>
+          </select> 
+          </div>
+          <div className="form-group">
+          <label className = "input-label">City </label>
+           <input 
+            type="text" 
+            className="inputfld"
+            value={this.state.city}
+            onChange={this.onChangeCity}
+          />
+        </div>
+        <div className="form-group">
+          <label className = "input-label">Date</label>
           <div>
             <DatePicker
               selected={this.state.date}
@@ -145,10 +220,23 @@ constructor(props) {
         </div>
 
         <div className="form-group">
-          <input type="submit" value="Edit Exercise Log" className="btn btn-primary" />
+          <input
+            type="submit"
+            value="Create Exercise Log"
+            className="btn btn-primary"
+          />
         </div>
       </form>
+      {this.props.auth == false ? <Redirect to = '/login' /> : null}
     </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapStateToProps)(EditExercise);

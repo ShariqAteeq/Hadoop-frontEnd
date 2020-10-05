@@ -9,15 +9,23 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
-    const description = req.body.description;
-    const duration = Number(req.body.duration)
+    const email = req.body.email;
+    const status = req.body.status;
+    const city = req.body.city;
+    const gender = req.body.gender;
+    const age = req.body.age;
+    const quali = req.body.quali;
     const date = Date.parse(req.body.date);
 
     const newExcercise = new Excercise({
         username,
-        description,
-        duration,
-        date
+        email,
+        status,
+        city,
+        gender,
+        age,
+        quali,
+        date,
     });
 
     newExcercise.save()
@@ -41,8 +49,12 @@ router.route('/update/:id').post((req, res) => {
     Excercise.findById(req.params.id)
         .then(excercise => {
             excercise.username = req.body.username;
-            excercise.description = req.body.description;
-            excercise.duration = Number(req.body.duration);
+            excercise.email = req.body.email;
+            excercise.status = req.body.status;
+            excercise.city = req.body.city;
+            excercise.gender = req.body.gender;
+            excercise.age = req.body.age;
+            excercise.quali = req.body.quali;
             excercise.date = Date.parse(req.body.date);
 
             excercise.save()

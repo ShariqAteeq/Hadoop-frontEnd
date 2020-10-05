@@ -1,5 +1,9 @@
-const User = require('../models/authUser.model');
+const User = require('../models/users.model');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+//const { SECRET } = require('../config');
+
+//const {APP_SECRET} = require('../')
 
 const userRegister = async (userDets, role, res) => {
     try {
@@ -39,97 +43,62 @@ const userRegister = async (userDets, role, res) => {
     let user = await User.findOne({ username });
     return user ? false : true;
   };
+  
+  const userLogin = async (userCreds, role, res) => {
 
-  // const validateEmail = async email => {
-  //   let user = await User.findOne({ email });
-  //   return user ? false : true;
-  // };
-  
-  /**
-   * To Login the user (ADMIN, SUPER_ADMIN, USER)
-   */
-  // const userLogin = async (userCreds, role, res) => {
-  //   let { username, password } = userCreds;
-  //   // First Check if the username is in the database
-  //   const user = await User.findOne({ username });
-  //   if (!user) {
-  //     return res.status(404).json({
-  //       message: "Username is not found. Invalid login credentials.",
-  //       success: false
-  //     });
-  //   }
-  //   // We will check the role
-  //   if (user.role !== role) {
-  //     return res.status(403).json({
-  //       message: "Please make sure you are logging in from the right portal.",
-  //       success: false
-  //     });
-  //   }
-  //   // That means user is existing and trying to signin fro the right portal
-  //   // Now check for the password
-  //   let isMatch = await bcrypt.compare(password, user.password);
-  //   if (isMatch) {
-  //     // Sign in the token and issue it to the user
-  //     let token = jwt.sign(
-  //       {
-  //         user_id: user._id,
-  //         role: user.role,
-  //         username: user.username,
-  //         email: user.email
-  //       },
-  //       SECRET,
-  //       { expiresIn: "7 days" }
-  //     );
-  
-  //     let result = {
-  //       username: user.username,
-  //       role: user.role,
-  //       email: user.email,
-  //       token: `Bearer ${token}`,
-  //       expiresIn: 168
-  //     };
-  
-  //     return res.status(200).json({
-  //       ...result,
-  //       message: "Hurray! You are now logged in.",
-  //       success: true
-  //     });
-  //   } else {
-  //     return res.status(403).json({
-  //       message: "Incorrect password.",
-  //       success: false
-  //     });
-  //   }
-  // };
-  
-  
-  
-  /**
-   * @DESC Passport middleware
-   */
-  // const userAuth = passport.authenticate("jwt", { session: false });
-  
-  /**
-   * @DESC Check Role Middleware
-   */
-  // const checkRole = roles => (req, res, next) =>
-  //   !roles.includes(req.user.role)
-  //     ? res.status(401).json("Unauthorized")
-  //     : next();
-  
+     const SECRET = process.env.APP_SECRET;
+     const jwtKey="12131";
 
+    let { username, password } = userCreds;
+    // First Check if the username is in the database
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.json({
+        message: "Username is not found. Invalid login credentials.",
+        success: false
+      });
+    }
+    // We will check the role
+    // if (user.role !== role) {
+    //   return res.json({
+    //     message: "Please make sure you are logging in from the right portal.",
+    //     success: false
+    //   });
+    // }
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      let token = jwt.sign(
+        {
+          user_id: user._id,
+          role: user.role,
+          username: user.username
+        },
+        jwtKey,
+       { expiresIn: "7 days" }
+      );
   
-  // const serializeUser = user => {
-  //   return {
-  //     username: user.username,
-  //     email: user.email,
-  //     name: user.name,
-  //     _id: user._id,
-  //     updatedAt: user.updatedAt,
-  //     createdAt: user.createdAt
-  //   };
-  // };
+      let result = {
+        username: user.username,
+        role: user.role,
+        token: `Bearer ${token}`,
+        expiresIn: 168
+      };
+  
+      return res.json({
+        ...result,
+        message: "Hurray! You are now logged in.",
+        success: true
+      });
+    } else {
+      return res.json({
+        message: "Incorrect password.",
+        success: false
+      });
+    }
+  };
+
   
   module.exports = {
-    userRegister
+    userRegister,
+    userLogin
   };

@@ -3,7 +3,7 @@ import bg from "../img/bg.svg";
 import avatar from "../img/avatar.svg";
 import wave from "../img/wave.png";
 import { connect } from "react-redux";
-import { signUp } from "../store/actions/authActions";
+import { login } from "../store/actions/authActions";
 import { Redirect , Link } from "react-router-dom";
 
 class Login extends Component {
@@ -33,13 +33,13 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-   
+
     const user = {
       username: this.state.username,
       password: this.state.password,
     };
 
-    this.props.signUp(user);
+    this.props.login(user);
     this.setState({
       username: "",
       password: "",
@@ -57,7 +57,8 @@ class Login extends Component {
           <div className="login-content">
             <form onSubmit={this.onSubmit} className = "login-form">
               <img src={avatar} />
-              <h4 className = "title-sub">Create Account!</h4>
+              <h2 className="title">Welcome back </h2>
+              <h4 className = "title-sub">Login to your Account</h4>
               <div className="input-div one">
                 <div className="i">
                   <i className="fas fa-user"></i>
@@ -88,12 +89,12 @@ class Login extends Component {
                   />
                 </div>
               </div>
-              <Link to = '/login' className = "login-link">Already Account? Login</Link>
+              <Link to = '/signup' className = "login-link">Don't Have Account? SignUp</Link>
               <input type="submit" className="btn" value="Login" on />
             </form>
           </div>
         </div>
-        {this.props.succ ? <Redirect to="/login" /> : null}
+        {this.props.auth ? <Redirect to="/" /> : null}
       </div>
     );
   }
@@ -102,14 +103,13 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth.auth,
-    succ : state.auth.sisuc,
     msg: state.auth.msg
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: (user) => dispatch(signUp(user)),
+    login: (user) => dispatch(login(user)),
   };
 };
 

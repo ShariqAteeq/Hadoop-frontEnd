@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>
-    <td>{props.exercise.description}</td>
-    <td>{props.exercise.duration}</td>
+    <td>{props.exercise.email}</td>
+    <td>{props.exercise.age}</td>
+    <td>{props.exercise.gender}</td>
+    <td>{props.exercise.city}</td>
+    <td>{props.exercise.quali}</td>
+    <td>{props.exercise.status}</td>
     <td>{props.exercise.date.substring(0,10)}</td>
     <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      <Link to={"/edit/"+props.exercise._id} className = "table-btn">edit</Link><a href="#" className = "table-btn" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
     </td>
   </tr>
 )
 
-export default class ExercisesList extends Component {
+class ExercisesList extends Component {
   constructor(props) {
     super(props);
 
@@ -25,7 +30,7 @@ export default class ExercisesList extends Component {
 
   componentDidMount() {
 
-    axios.get('https://hadoop-backenddb.herokuapp.com/excercises/')
+    axios.get('http://localhost:4000/excercises/')
       .then(response => {
         this.setState({ exercises: response.data })
       })
@@ -35,7 +40,7 @@ export default class ExercisesList extends Component {
   }
 
   deleteExercise(id) {
-    axios.delete('https://hadoop-backenddb.herokuapp.com/excercises/'+id)
+    axios.delete('http://localhost:4000/excercises/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
@@ -45,29 +50,47 @@ export default class ExercisesList extends Component {
 
   exerciseList() {
     return this.state.exercises.map(currentexercise => {
+      if(this.props.role == 'admin') {
+        return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
+      }
+      else if(currentexercise.username == this.props.username){
       return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
-    })
+    }})
   }
 
   render() {
+    console.log(this.props.role);
     return (
-      <div>
+      <div className = "exerciseList">
         <h3>Logged Exercises</h3>
-        <table className="table">
-          <thead className="thead-light">
+        <table>
             <tr>
               <th>Username</th>
-              <th>Description</th>
-              <th>Duration</th>
+              <th>Email</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>City</th>
+              <th>Qualification</th>
+              <th>Status</th>
               <th>Date</th>
-              <th>Actions</th>
+              <th>Operation</th>
             </tr>
-          </thead>
           <tbody>
             { this.exerciseList() }
           </tbody>
         </table>
+        {this.props.auth == false ? <Redirect to = '/login' /> : null}
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    username: state.auth.username,
+    auth: state.auth.auth,
+    role: state.auth.role
+  }
+}
+
+export default connect(mapStateToProps)(ExercisesList);
