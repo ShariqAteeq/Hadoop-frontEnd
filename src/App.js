@@ -15,10 +15,10 @@ import {isLogged} from './store/actions/authActions';
 import { connect } from 'react-redux';
 
 class App extends Component {
-  // componentDidMount() {
-  //   this.props.isLogged();
-  //   console.log(localStorage)
-  // }
+  componentDidMount() {
+    this.props.isLogged();
+    console.log(localStorage)
+  }
   render(){
     
     let navbar = this.props.auth == true ? <Header/>: null;
