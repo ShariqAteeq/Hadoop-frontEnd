@@ -15,26 +15,28 @@ import {isLogged} from './store/actions/authActions';
 import { connect } from 'react-redux';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.isLogged();
-    console.log(localStorage)
-  }
+  // componentDidMount() {
+  //   this.props.isLogged();
+  // }
   render(){
     
     let navbar = this.props.auth == true ? <Header/>: null;
     return (
     
       <div className="App">
+        
         <BrowserRouter>
-        {/* <Router /> */}
         {navbar}
-          <Switch>
+        <Router />
+        {/* <Router /> */}
+       
+          {/* <Switch>
             <Route exact path = '/' component = {ExcercisesList} />
             <Route path = '/login' component = {Login} />
             <Route path = '/add' component = {AddExcercise} />
             <Route path = '/edit/:id' component = {EditExcercise} />
             <Route path = '/signup' component = {CreateUser} />
-          </Switch>
+          </Switch> */}
         </BrowserRouter>
       </div>
     );

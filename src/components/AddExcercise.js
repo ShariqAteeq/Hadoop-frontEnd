@@ -19,7 +19,7 @@ class AddExcercise extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: this.props.username,
+      username: "",
       email: "",
       quali: "",
       status: "",
@@ -129,7 +129,6 @@ class AddExcercise extends Component {
               type="text"
               className="inputfld"
               value={this.state.username}
-              readOnly
             />
           </div>
           <div className="form-group">

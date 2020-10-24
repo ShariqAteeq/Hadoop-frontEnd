@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link , Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
+import {isLogged} from '../store/actions/authActions';
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>
@@ -14,7 +14,7 @@ const Exercise = props => (
     <td>{props.exercise.status}</td>
     <td>{props.exercise.date.substring(0,10)}</td>
     <td>
-      <Link to={"/edit/"+props.exercise._id} className = "table-btn">edit</Link><a href="#" className = "table-btn" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      {props.role =="admin" ? <Link to="/" className = "table-btn">Block</Link> : <div> <Link to={"/edit/"+props.exercise._id} className = "table-btn">edit</Link><a href="#" className = "table-btn" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a></div>}  
     </td>
   </tr>
 )
@@ -25,18 +25,19 @@ class ExercisesList extends Component {
 
     this.deleteExercise = this.deleteExercise.bind(this)
 
-    this.state = {exercises: []};
+    this.state = {exercises: [] , Operations : []};
   }
-
+ 
   componentDidMount() {
 
     axios.get('http://localhost:4000/excercises/')
       .then(response => {
-        this.setState({ exercises: response.data })
+        this.setState({ exercises: response.data , role: this.props.role })
       })
       .catch((error) => {
         console.log(error);
       })
+      this.props.isLogged();
   }
 
   deleteExercise(id) {
@@ -51,18 +52,17 @@ class ExercisesList extends Component {
   exerciseList() {
     return this.state.exercises.map(currentexercise => {
       if(this.props.role == 'admin') {
-        return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
+        return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} role = {this.props.role}/>;
       }
       else if(currentexercise.username == this.props.username){
-      return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
+      return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} role = {this.props.role}/>;
     }})
   }
 
   render() {
-    console.log(this.props.role);
     return (
       <div className = "exerciseList">
-        <h3>Logged Exercises</h3>
+        <h3>Users Activities</h3>
         <table>
             <tr>
               <th>Username</th>
@@ -79,7 +79,6 @@ class ExercisesList extends Component {
             { this.exerciseList() }
           </tbody>
         </table>
-        {this.props.auth == false ? <Redirect to = '/login' /> : null}
       </div>
     )
   }
@@ -93,4 +92,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ExercisesList);
+const mapDispatchToProps = dispatch => {
+  return {
+    isLogged: () => dispatch(isLogged())
+  }
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(ExercisesList);

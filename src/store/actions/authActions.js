@@ -2,36 +2,28 @@ import axios from 'axios';
 
 export const login = (user) => {
     return dispatch => {
+        console.log(user)
         axios.post('http://localhost:4000/users/login-user', user)
+        
         .then(res => {
-            localStorage.setItem('user' , res.data);
+            localStorage.setItem('username', res.data.username);
             dispatch( { type : 'LOGIN_SUCCESS' , auth : res.data.success , data : res.data, username : res.data.username })
-          console.log(res.data);
+            console.log(res.data);
+            
         }).catch(err => {
             console.log(err);
+            dispatch( { type : 'LOGIN_ERR' , err })
         })
     }
 }
 
-
-// export const updateExercise = (id , exc) => {
-//     return dispatch => {
-//         axios.post('http://localhost:4000/users/login-user', user)
-//         .then(res => {
-//             dispatch( { type : 'LOGIN_SUCCESS' , auth : res.data.success , data : res.data, username : res.data.username })
-//           console.log(res.data);
-//         }).catch(err => {
-//             console.log(err);
-//         })
-//     }
-// }
 
 export const signUp = (user) => {
     return dispatch => {
         axios.post('http://localhost:4000/users/register-user', user)
         .then(res => {
             console.log(res)
-            dispatch( { type : 'SIGNUP_SUCCESS' , sisuc : res.data.success , msg : res.data.message })
+            dispatch( { type : 'SIGNUP_SUCCESS' , sisuc : res.data.success , msg : res.data })
           console.log(res.data);
         }).catch(res => {
             console.log('err',res.data);
@@ -47,8 +39,9 @@ export const logout = () => {
 
 export const isLogged = () => {
     return dispatch => {
-        const user = localStorage.getItem('user');
-        if(user) {
+        const username = localStorage.getItem('username');
+        console.log(username);
+        if(username) {
             dispatch({type : 'isLogged'})
         }
     }

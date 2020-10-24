@@ -88,8 +88,9 @@ class Login extends Component {
                   />
                 </div>
               </div>
+              <p className = "login-errMsg">{this.props.msg}</p>
               <Link to = '/login' className = "login-link">Already Account? Login</Link>
-              <input type="submit" className="btn" value="Login" on />
+              <input type="submit" className="btn" value="Submit" on />
             </form>
           </div>
         </div>
@@ -103,7 +104,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.auth.auth,
     succ : state.auth.sisuc,
-    msg: state.auth.msg
+    msg: state.auth.Simessage
   };
 };
 

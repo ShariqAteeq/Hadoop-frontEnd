@@ -12,7 +12,6 @@ const excerciseSchema = new Schema({
     quali : {type : String },
     city : {type : String },
     date : {type : Date },
-    //ip: {type:String}
 }, {
     timestamps : true
 });

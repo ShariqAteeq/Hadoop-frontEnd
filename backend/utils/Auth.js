@@ -1,9 +1,6 @@
 const User = require('../models/users.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-//const { SECRET } = require('../config');
-
-//const {APP_SECRET} = require('../')
 
 const userRegister = async (userDets, role, res) => {
     try {
@@ -58,13 +55,6 @@ const userRegister = async (userDets, role, res) => {
         success: false
       });
     }
-    // We will check the role
-    // if (user.role !== role) {
-    //   return res.json({
-    //     message: "Please make sure you are logging in from the right portal.",
-    //     success: false
-    //   });
-    // }
     let isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       let token = jwt.sign(

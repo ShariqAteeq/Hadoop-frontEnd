@@ -3,7 +3,9 @@ const initialState = {
     sisuc: false,
     msg: '',
     username: '',
-    role: ''
+    role: '',
+    message: '',
+    Simessage: ''
 }
 
 const authReducer = (state = initialState , action)  => {
@@ -14,24 +16,29 @@ const authReducer = (state = initialState , action)  => {
                 ...state,
                 auth: action.auth,
                 data: action.data,
-                username: action.username,
-                role: action.data.role
+                username: action.data.username,
+                role: action.data.role,
+                message: action.data.message
+            }
+        case "LOGIN_ERR":
+            return {
+                ...state,
+                auth: false,
+                message: action.err
             }
         case "SIGNUP_SUCCESS":
             return {
                 ...state,
                 sisuc: action.sisuc,
-                msg: action.msg
+                Simessage: action.msg.message
             }
         case "logout":
             return {
                 ...state,
-                auth:false
+                auth:false,
+                message: ''
             }
         case "isLogged":
-            const fuser = localStorage.getItem('user');
-            const s = JSON.parse(fuser);
-            console.log('loc' ,s);
             return {
                 ...state,
                 auth: true

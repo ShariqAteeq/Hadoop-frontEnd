@@ -18,6 +18,7 @@ class Login extends Component {
       username: "",
       password: "",
       success: false,
+      err: this.props.msg
     };
   }
   onChangeUsername(e) {
@@ -33,7 +34,7 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    this.setState({err: ''});
     const user = {
       username: this.state.username,
       password: this.state.password,
@@ -45,8 +46,18 @@ class Login extends Component {
       password: "",
     });
   }
-  render() {
-    console.log(this.props.msg);
+  componentDidMount(){
+    this.setState({
+      err: ''
+    })
+  }
+
+
+   render() {
+    let { msg } = this.props;
+
+    this.state.err = msg;
+
     return (
       <div>
         <img className="wave" src={wave} />
@@ -89,6 +100,7 @@ class Login extends Component {
                   />
                 </div>
               </div>
+              <p className = "login-errMsg">{this.props.msg}</p>
               <Link to = '/signup' className = "login-link">Don't Have Account? SignUp</Link>
               <input type="submit" className="btn" value="Login" on />
             </form>
@@ -103,7 +115,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth.auth,
-    msg: state.auth.msg
+    msg: state.auth.message
   };
 };
 
