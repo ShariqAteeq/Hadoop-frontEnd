@@ -3,9 +3,10 @@ import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/actions/authActions";
 import Avatar from "@material-ui/core/Avatar";
-export default function ButtonAppBar() {
+const Navbar = () => {
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.auth.username);
+  const role = useSelector((state) => state.auth.role);
   const fd = userName.charAt(0).toUpperCase();
   const ld = userName.charAt(userName.length - 1).toUpperCase();
   return (
@@ -23,7 +24,7 @@ export default function ButtonAppBar() {
               ExcerciseList
             </NavLink>
           </li>
-          <li>
+          { role == "admin" ? null : <li>
             <NavLink
               activeClassName="header__linkActive"
               className="header__link"
@@ -33,6 +34,7 @@ export default function ButtonAppBar() {
               AddExcercise
             </NavLink>
           </li>
+           }
           <li>
             <Link className="header__link" onClick={() => dispatch(logout())}>
               Logout
@@ -53,3 +55,4 @@ export default function ButtonAppBar() {
     </div>
   );
 }
+export default Navbar;

@@ -22,7 +22,8 @@ class Router extends Component {
           <Route path="/edit/:id" component={EditExcercise} />
           </div>
       );
-    } else if(auth == false){
+    }
+     else if(auth == false){
       return (
         <div>
           <Redirect to="/login" />
@@ -38,6 +39,7 @@ class Router extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.auth,
+    role: state.auth.role
   }
 }
 
