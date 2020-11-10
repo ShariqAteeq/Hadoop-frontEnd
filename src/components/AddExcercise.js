@@ -8,7 +8,7 @@ class AddExcercise extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangename = this.onChangename.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeAge = this.onChangeAge.bind(this);
     this.onChangeGender = this.onChangeGender.bind(this);
@@ -19,7 +19,7 @@ class AddExcercise extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: "",
+      name: "",
       email: "",
       quali: "",
       status: "",
@@ -47,9 +47,9 @@ class AddExcercise extends Component {
 
   // }
 
-  onChangeUsername(e) {
+  onChangename(e) {
     this.setState({
-      username: e.target.value,
+      name: e.target.value,
     });
   }
 
@@ -97,7 +97,8 @@ class AddExcercise extends Component {
     e.preventDefault();
 
     const exercise = {
-      username: this.state.username,
+      username: this.props.username,
+      name: this.state.name,
       email: this.state.email,
       status: this.state.status,
       city: this.state.city,
@@ -107,8 +108,6 @@ class AddExcercise extends Component {
       date: this.state.date,
     };
 
-    console.log(exercise);
-
     axios
       .post("http://localhost:4000/excercises/add", exercise)
       .then((res) => console.log(res.data));
@@ -117,18 +116,17 @@ class AddExcercise extends Component {
   }
 
   render() {
-    console.log(this.props.username);
     return (
       <div>
         <h3>Create New Exercise Log</h3>
         <form onSubmit={this.onSubmit} className="input-form">
           <div className="">
             <label className = "input-label">Username </label>
-    
             <input
               type="text"
               className="inputfld"
-              value={this.state.username}
+              value={this.state.name}
+              onChange = {this.onChangename}
             />
           </div>
           <div className="form-group">
@@ -142,21 +140,30 @@ class AddExcercise extends Component {
           </div>
           <div className="form-group">
             <label className = "input-label">Status</label>
-            <input
-              type="text"
+            <select
+              required
               className="inputfld"
               value={this.state.status}
               onChange={this.onChangeStatus}
-            />
+            >
+              <option>Employed</option>
+              <option>UnEmployed</option>
+              <option>Student</option>
+            </select> 
           </div>
           <div className="form-group">
             <label className = "input-label">Qualification </label>
-            <input
-              type="text"
+            <select
+              required
               className="inputfld"
               value={this.state.quali}
               onChange={this.onChangeQuali}
-            />
+            >
+              <option>Intermediate</option>
+              <option>Bachelor's</option>
+              <option>Master</option>
+              <option>PhD</option>
+            </select> 
           </div>
           <div className="form-group">
             <label className = "input-label">Age </label>

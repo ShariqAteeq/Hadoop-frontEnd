@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const excerciseSchema = new Schema({
 
     username : {type : String , required : true},
+    name: { type: String },
     email : {type : String },
     age : {type : String },
     gender : {type : String },

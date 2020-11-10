@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 constructor(props) {
     super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangename = this.onChangename.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeAge = this.onChangeAge.bind(this);
     this.onChangeGender = this.onChangeGender.bind(this);
@@ -22,7 +22,7 @@ constructor(props) {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: "",
+      name: "",
       email: "",
       quali: "",
       status: "",
@@ -38,7 +38,7 @@ constructor(props) {
     axios.get('http://localhost:4000/excercises/'+this.props.match.params.id)
       .then(response => {
         this.setState({
-          username: response.data.username,
+          name: response.data.name,
           email: response.data.email,
           status: response.data.status,
           city: response.data.city,
@@ -52,23 +52,11 @@ constructor(props) {
         console.log(error);
       })
 
-    // axios.get('http://localhost:4000/users/')
-    //   .then(response => {
-    //     if (response.data.length > 0) {
-    //       this.setState({
-    //         users: response.data.map(user => user.username),
-    //       })
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   })
-
   }
 
-  onChangeUsername(e) {
+  onChangename(e) {
     this.setState({
-      username: e.target.value,
+      name: e.target.value,
     });
   }
 
@@ -117,7 +105,7 @@ constructor(props) {
     e.preventDefault();
 
     const exercise = {
-      username: this.state.username,
+       name: this.state.name,
       email: this.state.email,
       status: this.state.status,
       city: this.state.city,
@@ -147,8 +135,8 @@ constructor(props) {
           <input
             type="text"
             className="inputfld"
-            value={this.state.username}
-            onChange={this.onChangeUsername}
+            value={this.state.name}
+            onChange={this.onChangename}
           />
         </div>
         <div className="form-group">

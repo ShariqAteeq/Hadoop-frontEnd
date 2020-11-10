@@ -4,8 +4,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {isLogged} from '../store/actions/authActions';
 const Exercise = props => (
+  
   <tr>
-    <td>{props.exercise.username}</td>
+    <td>{props.exercise.name}</td>
     <td>{props.exercise.email}</td>
     <td>{props.exercise.age}</td>
     <td>{props.exercise.gender}</td>
@@ -14,7 +15,7 @@ const Exercise = props => (
     <td>{props.exercise.status}</td>
     <td>{props.exercise.date.substring(0,10)}</td>
     <td>
-      {props.role =="admin" ? <Link to="/" className = "table-btn">Block</Link> : <div> <Link to={"/edit/"+props.exercise._id} className = "table-btn">edit</Link><a href="#" className = "table-btn" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a></div>}  
+      {props.role ==="admin" ? null : <div> <Link to={"/edit/"+props.exercise._id} className = "table-btn">edit</Link><a href="#" className = "table-btn" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a></div>}  
     </td>
   </tr>
 )
@@ -25,7 +26,7 @@ class ExercisesList extends Component {
 
     this.deleteExercise = this.deleteExercise.bind(this)
 
-    this.state = {exercises: [] , Operations : []};
+    this.state = {exercises: [] , users : []};
   }
  
   componentDidMount() {
@@ -36,8 +37,18 @@ class ExercisesList extends Component {
       })
       .catch((error) => {
         console.log(error);
+      });
+
+      axios.get('http://localhost:4000/users/')
+      .then(res => {
+        console.log(res);
+        this.setState({ users : res.data });
+        console.log(this.props.users);
       })
-      this.props.isLogged();
+      .catch(err => {
+        console.log(err);
+      })
+
   }
 
   deleteExercise(id) {
@@ -60,6 +71,7 @@ class ExercisesList extends Component {
   }
 
   render() {
+    console.log('users' , this.props.username);
     return (
       <div className = "exerciseList">
         <h3>Users Activities</h3>

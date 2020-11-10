@@ -19,7 +19,8 @@ const userRegister = async (userDets, role, res) => {
       const newUser = new User({
         ...userDets,
         password,
-        role
+        role , 
+        active: true
       });
   
       await newUser.save();

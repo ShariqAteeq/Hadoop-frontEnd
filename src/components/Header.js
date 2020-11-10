@@ -23,6 +23,14 @@ const Navbar = () => {
             >
               ExcerciseList
             </NavLink>
+            <NavLink
+              activeClassName="header__linkActive"
+              className="header__link"
+              to="/users"
+              exact
+            >
+              Users
+            </NavLink>
           </li>
           { role == "admin" ? null : <li>
             <NavLink

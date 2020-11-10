@@ -6,6 +6,10 @@ export const login = (user) => {
         axios.post('http://localhost:4000/users/login-user', user)
         
         .then(res => {
+            console.log(res);
+            // localStorage.setItem('token' , res.data.token);
+            localStorage.setItem('auth', true);
+            localStorage.setItem('role', res.data.role);
             localStorage.setItem('username', res.data.username);
             dispatch( { type : 'LOGIN_SUCCESS' , auth : res.data.success , data : res.data, username : res.data.username })
             console.log(res.data);

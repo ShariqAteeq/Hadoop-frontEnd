@@ -1,9 +1,9 @@
 const initialState = {
-    auth : false,
+    auth : localStorage.getItem('auth') || false,
     sisuc: false,
     msg: '',
-    username: '',
-    role: '',
+    username: localStorage.getItem('username') || '',
+    role: localStorage.getItem('role') || '',
     message: '',
     Simessage: ''
 }

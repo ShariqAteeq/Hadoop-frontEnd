@@ -16,6 +16,9 @@ const userSchema = new Schema({
     },
     role: {
         type: String
+    } , 
+    active: {
+        type: Boolean
     }
 }, {
     timestamps : true

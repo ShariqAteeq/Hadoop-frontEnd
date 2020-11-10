@@ -9,6 +9,7 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
+    const name = req.body.name;
     const email = req.body.email;
     const status = req.body.status;
     const city = req.body.city;
@@ -19,6 +20,7 @@ router.route('/add').post((req, res) => {
 
     const newExcercise = new Excercise({
         username,
+        name,
         email,
         status,
         city,
@@ -48,7 +50,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
     Excercise.findById(req.params.id)
         .then(excercise => {
-            excercise.username = req.body.username;
+            excercise.name = req.body.name;
             excercise.email = req.body.email;
             excercise.status = req.body.status;
             excercise.city = req.body.city;
