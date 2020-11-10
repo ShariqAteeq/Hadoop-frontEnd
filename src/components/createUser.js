@@ -89,7 +89,7 @@ class Login extends Component {
                 </div>
               </div>
               <p className = "login-errMsg">{this.props.msg}</p>
-              <Link to = '/login' className = "login-link">Already Account? Login</Link>
+              <Link to = '/login' className = "login-link">Login</Link>
               <input type="submit" className="btn" value="Submit" on />
             </form>
           </div>

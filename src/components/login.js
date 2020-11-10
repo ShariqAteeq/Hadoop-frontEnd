@@ -68,7 +68,6 @@ class Login extends Component {
           <div className="login-content">
             <form onSubmit={this.onSubmit} className = "login-form">
               <img src={avatar} />
-              <h2 className="title">Welcome back </h2>
               <h4 className = "title-sub">Login to your Account</h4>
               <div className="input-div one">
                 <div className="i">
@@ -101,7 +100,7 @@ class Login extends Component {
                 </div>
               </div>
               <p className = "login-errMsg">{this.props.msg}</p>
-              <Link to = '/signup' className = "login-link">Don't Have Account? SignUp</Link>
+              <Link to = '/signup' className = "login-link">SignUp</Link>
               <input type="submit" className="btn" value="Login" on />
             </form>
           </div>
