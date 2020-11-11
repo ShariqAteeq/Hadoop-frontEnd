@@ -46,7 +46,6 @@ class Login extends Component {
     });
   }
   render() {
-    console.log(this.props.msg);
     return (
       <div>
         <img className="wave" src={wave} />
@@ -69,6 +68,8 @@ class Login extends Component {
                     placeholder="Username"
                     value={this.state.username}
                     onChange={this.onChangeUsername}
+                    maxlength="10"
+                    minLength = "5"
                     required
                   />
                 </div>
@@ -84,13 +85,15 @@ class Login extends Component {
                     placeholder="password"
                     value={this.state.password}
                     onChange={this.onChangePassword}
+                    maxlength="10"
+                    minLength = "5"
                     required
                   />
                 </div>
               </div>
-              <p className = "login-errMsg">{this.props.msg}</p>
-              <Link to = '/login' className = "login-link">Login</Link>
-              <input type="submit" className="btn" value="Submit" on />
+              {!this.state.username && <p className = "login-errMsg">{this.props.msg}</p>}
+              <Link to = '/login' className = "login-link">SignIn</Link>
+              <button type="submit" className="btn">Create Account</button>
             </form>
           </div>
         </div>

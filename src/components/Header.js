@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/actions/authActions";
+import logo from '../img/logo.png';
 import Avatar from "@material-ui/core/Avatar";
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <label className="logo">Log Analyzer</label>
+        <img src= {logo} alt = "logo" width = {120} height = {85} style = {{ marginLeft: '50px' }} />
         <ul>
           <li>
             <NavLink
@@ -22,14 +23,6 @@ const Navbar = () => {
               exact
             >
               ExcerciseList
-            </NavLink>
-            <NavLink
-              activeClassName="header__linkActive"
-              className="header__link"
-              to="/users"
-              exact
-            >
-              Users
             </NavLink>
           </li>
           { role == "admin" ? null : <li>

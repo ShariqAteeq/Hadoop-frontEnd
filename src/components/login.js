@@ -47,9 +47,7 @@ class Login extends Component {
     });
   }
   componentDidMount(){
-    this.setState({
-      err: ''
-    })
+    this.setState({ err: '' });
   }
 
 
@@ -99,7 +97,7 @@ class Login extends Component {
                   />
                 </div>
               </div>
-              <p className = "login-errMsg">{this.props.msg}</p>
+             {!this.state.username && <p className = "login-errMsg">{this.state.err}</p>}
               <Link to = '/signup' className = "login-link">SignUp</Link>
               <input type="submit" className="btn" value="Login" on />
             </form>

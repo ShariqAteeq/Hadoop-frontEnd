@@ -6,6 +6,7 @@ import {isLogged} from '../store/actions/authActions';
 const Exercise = props => (
   
   <tr>
+    {props.role === "admin" && <td>{props.exercise.username}</td>}
     <td>{props.exercise.name}</td>
     <td>{props.exercise.email}</td>
     <td>{props.exercise.age}</td>
@@ -34,6 +35,7 @@ class ExercisesList extends Component {
     axios.get('http://localhost:4000/excercises/')
       .then(response => {
         this.setState({ exercises: response.data , role: this.props.role })
+        console.log('exer',response);
       })
       .catch((error) => {
         console.log(error);
@@ -63,7 +65,7 @@ class ExercisesList extends Component {
   exerciseList() {
     return this.state.exercises.map(currentexercise => {
       if(this.props.role == 'admin') {
-        return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} role = {this.props.role}/>;
+        return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} role = {this.props.role} username = {this.props.username} />;
       }
       else if(currentexercise.username == this.props.username){
       return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id} role = {this.props.role}/>;
@@ -71,13 +73,13 @@ class ExercisesList extends Component {
   }
 
   render() {
-    console.log('users' , this.props.username);
     return (
       <div className = "exerciseList">
-        <h3>Users Activities</h3>
+        <h3 className = "excerciseHeading">Users Activities</h3>
         <table>
             <tr>
-              <th>Username</th>
+              {this.props.username === "admin" && <th>Username</th>}
+              <th>Name</th>
               <th>Email</th>
               <th>Age</th>
               <th>Gender</th>
@@ -85,7 +87,7 @@ class ExercisesList extends Component {
               <th>Qualification</th>
               <th>Status</th>
               <th>Date</th>
-              <th>Operation</th>
+              {this.props.username !== "admin" && <th>Operation</th>}
             </tr>
           <tbody>
             { this.exerciseList() }

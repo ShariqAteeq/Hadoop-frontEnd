@@ -127,94 +127,118 @@ constructor(props) {
   render() {
     return (
       <div>
-      <h3>Edit Excercise</h3>
+      <h3 className = "excerciseHeading">Edit Excercise</h3>
       <form onSubmit={this.onSubmit} className="input-form">
-        <div className="">
-          <label className = "input-label">Username </label>
-  
-          <input
-            type="text"
-            className="inputfld"
-            value={this.state.name}
-            onChange={this.onChangename}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Email</label>
-          <input
-            type="text"
-            className="inputfld"
-            value={this.state.email}
-            onChange={this.onChangeEmail}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Status</label>
-          <input
-            type="text"
-            className="inputfld"
-            value={this.state.status}
-            onChange={this.onChangeStatus}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Qualification </label>
-          <input
-            type="text"
-            className="inputfld"
-            value={this.state.quali}
-            onChange={this.onChangeQuali}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Age </label>
-          <input
-            type="text"
-            className="inputfld"
-            value={this.state.age}
-            onChange={this.onChangeAge}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Gender </label>
-          <select
-            ref="userInput"
-            required
-            className="inputfld"
-            value={this.state.gender}
-            onChange={this.onChangeGender}
-          >
-            <option>Male</option>
-            <option>Female</option>
-          </select> 
-          </div>
-          <div className="form-group">
-          <label className = "input-label">City </label>
-           <input 
-            type="text" 
-            className="inputfld"
-            value={this.state.city}
-            onChange={this.onChangeCity}
-          />
-        </div>
-        <div className="form-group">
-          <label className = "input-label">Date</label>
-          <div>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.onChangeDate}
+          <div className="">
+            <label className = "input-label">Username </label>
+            <input
+              type="text"
+              className="inputfld"
+              value={this.state.name}
+              onChange = {this.onChangename}
             />
           </div>
-        </div>
+          <div className="form-group">
+            <label className = "input-label">Email</label>
+            <input
+              type="email"
+              className="inputfld"
+              value={this.state.email}
+              onChange={this.onChangeEmail}
+            />
+          </div>
+          <div className="form-group">
+            <label className = "input-label">Status</label>
+            <select
+              required
+              className="inputfld"
+              value={this.state.status}
+              onChange={this.onChangeStatus}
+            >
+              <option>Employed</option>
+              <option>UnEmployed</option>
+              <option>Student</option>
+            </select> 
+          </div>
+          <div className="form-group">
+            <label className = "input-label">Qualification </label>
+            <select
+              required
+              className="inputfld"
+              value={this.state.quali}
+              onChange={this.onChangeQuali}
+            >
+              <option>Intermediate</option>
+              <option>Bachelor's</option>
+              <option>Master</option>
+              <option>PhD</option>
+            </select> 
+          </div>
+          <div className="form-group">
+            <label className = "input-label">Age </label>
+            <input
+              type="text"
+              className="inputfld"
+              value={this.state.age}
+              onChange={this.onChangeAge}
+            />
+          </div>
+          <div className="form-group">
+            <label className = "input-label">Gender </label>
+            <select
+              ref="userInput"
+              required
+              className="inputfld"
+              value={this.state.gender}
+              onChange={this.onChangeGender}
+            >
+              <option>Male</option>
+              <option>Female</option>
+            </select> 
+            </div>
+            <div className="form-group">
+            <label className = "input-label">City</label>
+            <select
+              ref="userInput"
+              required
+              className="inputfld"
+              value={this.state.city}
+              onChange={this.onChangeCity}
+            >
+              <option>Karachi</option>
+              <option>Islamabad</option>
+              <option>Lahore</option>
+              <option>Multan</option>
+              <option>Bahawalpur</option>
+              <option>Jhelum</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label className = "input-label">Date</label>
+            {/* <input
+              type="date"
+              className="inputfld"
+              // value={this.state.date}
+              onChange={this.onChangeDate}
+            /> */}
+            <div>
+              <DatePicker
+                selected={this.state.date}
+                onChange={this.onChangeDate}
+                className="inputfld"
+                value = {this.state.date}
+              />
+            </div>
+          </div>
 
-        <div className="form-group">
-          <input
-            type="submit"
-            value="Create Exercise Log"
-            className="btn btn-primary"
-          />
-        </div>
-      </form>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Edit Exercise Log"
+              className="btn btn-primary"
+            />
+          </div>
+        </form>
       {this.props.auth == false ? <Redirect to = '/login' /> : null}
     </div>
     )

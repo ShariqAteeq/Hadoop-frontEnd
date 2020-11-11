@@ -21,11 +21,11 @@ class AddExcercise extends Component {
     this.state = {
       name: "",
       email: "",
-      quali: "",
-      status: "",
+      quali: "Master",
+      status: "Student",
       age: "",
-      gender: "",
-      city: "",
+      gender: "Male",
+      city: "Lahore",
       date: new Date(),
       // users: []
     };
@@ -118,7 +118,7 @@ class AddExcercise extends Component {
   render() {
     return (
       <div>
-        <h3>Create New Exercise Log</h3>
+        <h3 className = "excerciseHeading">Create New Exercise</h3>
         <form onSubmit={this.onSubmit} className="input-form">
           <div className="">
             <label className = "input-label">Username </label>
@@ -188,20 +188,36 @@ class AddExcercise extends Component {
             </select> 
             </div>
             <div className="form-group">
-            <label className = "input-label">City </label>
-             <input 
-              type="text" 
+            <label className = "input-label">City</label>
+            <select
+              ref="userInput"
+              required
               className="inputfld"
               value={this.state.city}
               onChange={this.onChangeCity}
-            />
+            >
+              <option>Karachi</option>
+              <option>Islamabad</option>
+              <option>Lahore</option>
+              <option>Multan</option>
+              <option>Bahawalpur</option>
+              <option>Jhelum</option>
+            </select>
           </div>
           <div className="form-group">
             <label className = "input-label">Date</label>
+            {/* <input
+              type="date"
+              className="inputfld"
+              value={this.state.date}
+              onChange={this.onChangeDate}
+            /> */}
             <div>
               <DatePicker
                 selected={this.state.date}
                 onChange={this.onChangeDate}
+                className="inputfld"
+                value = {this.state.date}
               />
             </div>
           </div>

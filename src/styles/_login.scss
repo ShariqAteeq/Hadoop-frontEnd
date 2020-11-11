@@ -229,10 +229,11 @@
 	color: #999;
 	font-size: 0.9rem;
 	transition: .3s;
-}
 
-a:hover{
-	color: #38d39f;
+	&:hover { 
+		color: #32be8f;
+		background-color: none !important;
+	}
 }
 
 .btn{

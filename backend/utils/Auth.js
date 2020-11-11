@@ -7,7 +7,7 @@ const userRegister = async (userDets, role, res) => {
       // Validate the username
       let usernameNotTaken = await validateUsername(userDets.username);
       if (!usernameNotTaken) {
-        return res.status(400).json({
+        return res.json({
           message: `Username is already taken.`,
           success: false
         });
@@ -24,13 +24,13 @@ const userRegister = async (userDets, role, res) => {
       });
   
       await newUser.save();
-      return res.status(201).json({
+      return res.json({
         message: "Hurry! now you are successfully registred. Please nor login.",
         success: true
       });
     } catch (err) {
       // Implement logger function (winston)
-      return res.status(500).json({
+      return res.json({
         message: "Unable to create your account.",
         success: false
       });
